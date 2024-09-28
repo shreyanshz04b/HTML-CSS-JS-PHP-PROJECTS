@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Manipulation App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 8px cyan;
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Array Manipulation</h1>
+        <input type="text" id="array1" placeholder="Enter first array (comma separated)">
+        <input type="text" id="array2" placeholder="Enter second array (comma separated)">
+        <input type="text" id="sliceStart" placeholder="Start index for slice">
+        <input type="text" id="sliceEnd" placeholder="End index for slice">
+        <input type="text" id="findValue" placeholder="Enter value to find index">
+        <button onclick="manipulateArray()">Process Array</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function manipulateArray() {
+            const array1 = document.getElementById('array1').value.split(',').map(Number);
+            const array2 = document.getElementById('array2').value.split(',').map(Number);
+            const sliceStart = parseInt(document.getElementById('sliceStart').value);
+            const sliceEnd = parseInt(document.getElementById('sliceEnd').value);
+            const findValue = parseInt(document.getElementById('findValue').value);
+            
+            // Concatenate arrays
+            const concatenatedArray = array1.concat(array2);
+            
+            // Slice the concatenated array
+            const slicedArray = concatenatedArray.slice(sliceStart, sliceEnd);
+            
+            // Find index of the specified value in the sliced array
+            const indexOfValueInSlicedArray = slicedArray.indexOf(findValue);
+
+            // Display results
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = `
+                <strong>Concatenated Array:</strong> ${concatenatedArray.join(', ')}<br>
+                <strong>Sliced Array:</strong> ${slicedArray.join(', ')}<br>
+                <strong>Index of Value (${findValue}) in Sliced Array:</strong> ${indexOfValueInSlicedArray !== -1 ? indexOfValueInSlicedArray : 'Not Found'}
+            `;
+        }
+    </script>
+</body>
+</html>

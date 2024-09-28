@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2x2 Matrix Inverse Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>2x2 Matrix Inverse Calculator</h1>
+    <button onclick="inputMatrix()">Input 2x2 Matrix</button>
+    
+    <script>
+        function inputMatrix() {
+            // Prompt user for matrix rows
+            const row1 = prompt("Enter values for the first row (a11, a12) separated by commas:");
+            const row2 = prompt("Enter values for the second row (a21, a22) separated by commas:");
+            
+            // Split the input strings into arrays
+            const [a11, a12] = row1.split(',').map(Number);
+            const [a21, a22] = row2.split(',').map(Number);
+            
+            // Calculate the determinant
+            const determinant = a11 * a22 - a12 * a21;
+            
+            // Check if the determinant is zero
+            if (determinant === 0) {
+                alert("Matrix is singular and cannot be inverted.");
+                return;
+            }
+            
+            // Calculate the inverse matrix
+            const invA11 = a22 / determinant;
+            const invA12 = -a12 / determinant;
+            const invA21 = -a21 / determinant;
+            const invA22 = a11 / determinant;
+            
+            // Display original and inverse matrices
+            alert(`original Matrix:\n[${a11}, ${a12}]\n[${a21}, ${a22}]\n\nInverse Matrix:\n[${invA11.toFixed(2)}, ${invA12.toFixed(2)}]\n[${invA21.toFixed(2)}, ${invA22.toFixed(2)}]`);
+        }
+    </script>
+</body>
+</html>

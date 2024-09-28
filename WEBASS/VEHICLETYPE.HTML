@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toll Booth Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow:2px 2px 8px cyan;
+            text-align: center;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Toll Booth Calculator</h1>
+        <label for="vehicleType">Select Vehicle Type:</label>
+        <select id="vehicleType">
+            <option value="car">Car </option>
+            <option value="truck">Truck</option>
+            <option value="motorcycle">Motorcycle</option>
+        </select>
+        <div>
+            <input type="checkbox" id="emergencyStatus">
+            <label for="emergencyStatus"> is this emergency vehicle</label>
+        </div>
+        <button onclick="calculateToll()">Calculate Toll</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        function calculateToll() {
+            const vehicleType = document.getElementById('vehicleType').value;
+            const isEmergency = document.getElementById('emergencyStatus').checked;
+            let toll;
+
+            if (isEmergency) {
+                toll = 0; // Toll waived for emergency vehicles
+            } else {
+                switch (vehicleType) {
+                    case 'car':
+                        toll = 5;
+                        break;
+                    case 'truck':
+                        toll = 10;
+                        break;
+                    case 'motorcycle':
+                        toll = 3;
+                        break;
+                    default:
+                        toll = 0;
+                }
+            }
+
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = `Calculated Toll: $${toll}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBC Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .quiz-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2PX 2PX 8PX cyan;
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 10px 0;
+        }
+        .options button {
+            padding: 10px;
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .options button:hover {
+            background-color: #0056b3;
+        }
+        .score {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>KBC Quiz</h1>
+        <div id="question" class="question"></div>
+        <ul id="options" class="options"></ul>
+        <div id="score" class="score"></div>
+        <button id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question</button>
+    </div>
+
+    <script>
+        // Quiz questions array
+        const quiz = [
+            {
+                question: "What is the capital of India?",
+                options: ["A. Delhi", "B. Mumbai", "C. Kolkata", "D. Chennai"],
+                correct: 0 // Index of correct answer (Delhi)
+            },
+            {
+                question: "Orginal Name of Mahabharat?",
+                options: ["Rigved", "Jay Sahita", "bhagwat gita", "Krishan gita"],
+                correct: 1 // Index of correct answer (J.K. Rowling)
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["A. Earth", "B. Mars", "C. Jupiter", "D. Venus"],
+                correct: 1 // Index of correct answer (Mars)
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // Load question and options
+        function loadQuestion() {
+            document.getElementById("nextBtn").style.display = "none";
+            const question = document.getElementById("question");
+            const options = document.getElementById("options");
+            options.innerHTML = '';
+
+            question.innerHTML = quiz[currentQuestionIndex].question;
+            quiz[currentQuestionIndex].options.forEach((option, index) => {
+                const li = document.createElement("li");
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.onclick = () => checkAnswer(index);
+                li.appendChild(button);
+                options.appendChild(li);
+            });
+        }
+
+        // Check the user's answer
+        function checkAnswer(selectedIndex) {
+            const correctIndex = quiz[currentQuestionIndex].correct;
+            if (selectedIndex === correctIndex) {
+                alert("Correct!");
+                score++;
+            } else {
+                alert("Incorrect! The correct answer is: " + quiz[currentQuestionIndex].options[correctIndex]);
+            }
+            document.getElementById("nextBtn").style.display = "block";
+            updateScore();
+        }
+
+        // Update the score display
+        function updateScore() {
+            const scoreDisplay = document.getElementById("score");
+            scoreDisplay.innerHTML = `Score: ${score} / ${quiz.length}`;
+        }
+
+        // Load the next question
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quiz.length) {
+                loadQuestion();
+            } else {
+                alert("Quiz over! Final score: " + score);
+                currentQuestionIndex = 0;
+                score = 0;
+                loadQuestion();
+            }
+        }
+
+        // Load the first question when page loads
+        window.onload = loadQuestion;
+    </script>
+</body>
+</html>

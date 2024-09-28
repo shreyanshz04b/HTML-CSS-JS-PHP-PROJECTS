@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Countdown Timer</h1>
+        <input type="number" id="startNumber" placeholder="Enter a starting number" min="1">
+        <button onclick="startCountdown()">Start Countdown</button>
+        <div id="output"></div>
+    </div>
+    <script>
+        function startCountdown() {
+            let startNumber = parseInt(document.getElementById("startNumber").value);
+            let output = document.getElementById("output");
+            output.innerHTML = ''; // Clear previous output
+
+            if (isNaN(startNumber) || startNumber <= 0) {
+                output.innerHTML = 'Please enter a valid starting number greater than 0.';
+                return;
+            }
+
+            output.innerHTML += '<h2>Countdown:</h2>';
+            combinedCountdown(startNumber, output);
+        }
+
+        function combinedCountdown(startNumber, output) {
+            let currentNumber = startNumber;
+
+            // First use the while loop
+            while (currentNumber > Math.floor(startNumber / 2)) {
+                output.innerHTML += currentNumber + '<br>';
+                currentNumber--;
+            }
+
+            // Then switch to the do-while loop
+            do {
+                output.innerHTML += currentNumber + '<br>';
+                currentNumber--;
+            } while (currentNumber >= 0);
+        }
+    </script>
+</body>
+</html>

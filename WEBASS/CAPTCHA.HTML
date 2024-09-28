@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form with CAPTCHA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            padding-right: 2%;
+            border-radius: 10px;
+            box-shadow: 2px 2px 8px cyan;
+            width: 300px;
+            text-align: center;
+            
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+       
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+
+        #captcha-box {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <input type="password" id="password" placeholder="Enter your password" required>
+
+        <!-- Captcha box -->
+        <div id="captcha-box">
+            <p id="captcha-question"></p>
+        </div>
+
+        <input type="text" id="captcha-answer" placeholder="Answer the CAPTCHA">
+        <button onclick="validateForm()">Login</button>
+        <p id="error-message" class="error"></p>
+    </div>
+
+    <script>
+        let captchaResult;
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 10);
+            const num2 = Math.floor(Math.random() * 10);
+            captchaResult = num1 + num2;
+            document.getElementById("captcha-question").innerHTML = `What is ${num1} + ${num2}?`;
+        }
+
+        function validateForm() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const captchaAnswer = document.getElementById("captcha-answer").value;
+            const errorMessage = document.getElementById("error-message");
+
+            errorMessage.textContent = "";
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                errorMessage.textContent = "Please enter a valid email.";
+                return;
+            }
+
+            // Password validation
+            if (password === "") {
+                errorMessage.textContent = "Password cannot be empty.";
+                return;
+            }
+            if (parseInt(captchaAnswer) !== captchaResult) {
+                errorMessage.textContent = "Incorrect CAPTCHA answer. Please try again.";
+                return;
+            }
+
+            alert("Login successful!");
+        }
+        window.onload = generateCaptcha;
+    </script>
+</body>
+</html>

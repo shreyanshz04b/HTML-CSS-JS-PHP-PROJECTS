@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendee Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 2PX 2PX 8PX cyan;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Attendee Tracker</h1>
+        <p>Total Checked In: <span id="checkedInCount">0</span></p>
+        <ul id="attendeeList"></ul>
+        <input type="text" id="newAttendeeName" placeholder="Add new attendee">
+        <button onclick="addAttendee()">Add Attendee</button>
+    </div>
+
+    <script>
+        let attendees = [
+    { name: 'Alice', checkedIn: true },
+    { name: 'Bob', checkedIn: false },
+    { name: 'Charlie', checkedIn: true },
+    { name: 'David', checkedIn: true }
+];
+
+function renderAttendees() {
+    const attendeeList = document.getElementById('attendeeList');
+    attendeeList.innerHTML = '';
+    
+    attendees.forEach((attendee, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            ${attendee.name} 
+            <button onclick="toggleCheckIn(${index})">${attendee.checkedIn ? 'Check Out' : 'Check In'}</button>
+        `;
+        attendeeList.appendChild(li);
+    });
+
+    updateCheckedInCount();
+}
+
+function toggleCheckIn(index) {
+    attendees[index].checkedIn = !attendees[index].checkedIn;
+    renderAttendees();
+}
+
+function updateCheckedInCount() {
+    const checkedInCount = attendees.filter(att => att.checkedIn).length;
+    document.getElementById('checkedInCount').innerText = checkedInCount;
+}
+
+function addAttendee() {
+    const newName = document.getElementById('newAttendeeName').value;
+    if (newName) {
+        attendees.push({ name: newName, checkedIn: false });
+        document.getElementById('newAttendeeName').value = '';
+        renderAttendees();
+    }
+}
+
+renderAttendees();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Hover Effects</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .button1 {
+            background-color: lightblue;
+            color: darkblue;
+        }
+        .button2 {
+            background-color: lightgreen;
+            color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <button class="button button1" id="button1">Hover me!</button>
+    <button class="button button2" id="button2">Hover over me!</button>
+
+    <script>
+        const button1 = document.getElementById('button1');
+        const button2 = document.getElementById('button2');
+
+        button1.addEventListener('mouseover', () => {
+            button1.style.backgroundColor = 'darkblue';
+            button1.style.color = 'white';
+            button1.textContent = 'GREAT CHOICE!';
+        });
+
+        button1.addEventListener('mouseout', () => {
+            button1.style.backgroundColor = 'lightblue';
+            button1.style.color = 'darkblue';
+            button1.textContent = 'Hover me!';
+        });
+
+        button2.addEventListener('mouseover', () => {
+            button2.style.backgroundColor = 'darkgreen';
+            button2.style.color = 'white';
+            button2.textContent = 'AWESOME!';
+        });
+
+        button2.addEventListener('mouseout', () => {
+            button2.style.backgroundColor = 'lightgreen';
+            button2.style.color = 'darkgreen';
+            button2.textContent = 'Hover over me!';
+        });
+    </script>
+</body>
+</html>

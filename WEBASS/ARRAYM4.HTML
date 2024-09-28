@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Operations - Method Chaining</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2PX 2PX 8PX cyan;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            background-color: #288aed;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Array Operations</h1>
+        <p>Enter numbers separated by commas:</p>
+        <input type="text" id="numberArray" placeholder="e.g., 1, 24, 32, 12, 5">
+        <button onclick="processArray()">Process Array</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function processArray() {
+            const input = document.getElementById('numberArray').value;
+            const resultElement = document.getElementById('result');
+            
+            let numbers = input.split(',').map(Number);
+            resultElement.innerHTML = `<strong>Original Numbers:</strong> ${numbers.join(', ')}<br>`;
+          
+            let evenNumbers = numbers.filter(num => num % 2 === 0);
+            resultElement.innerHTML += `<strong>Filtered Even Numbers:</strong> ${evenNumbers.join(', ')}<br>`;
+            
+            let multipliedNumbers = evenNumbers.map(num => num * 10);
+            resultElement.innerHTML += `<strong>Multiplied by 10:</strong> ${multipliedNumbers.join(', ')}<br>`;
+            
+            let sum = multipliedNumbers.reduce((acc, num) => acc + num, 0);
+            resultElement.innerHTML += `<strong>Sum of Results:</strong> ${sum}`;
+        }
+    </script>
+
+</body>
+</html>

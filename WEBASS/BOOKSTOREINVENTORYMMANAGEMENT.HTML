@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore Inventory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form input {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .inventory {
+            width: 80%;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        td button {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        td button:hover {
+            background-color: #c82333;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bookstore Inventory System</h1>
+
+    <form id="bookForm">
+        <input type="text" id="title" placeholder="Book Title" required>
+        <input type="text" id="author" placeholder="Author" required>
+        <input type="number" id="quantity" placeholder="Quantity" required min="1">
+        <button type="submit">Add Book</button>
+    </form>
+
+    <h2>Total Books in Inventory: <span id="totalBooks">0</span></h2>
+
+    <div class="inventory">
+        <table id="inventoryTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        let books = [];
+
+  
+        function addBook(title, author, quantity) {
+            const existingBook = books.find(book => book.title === title);
+            if (existingBook) {
+                existingBook.quantity += quantity;
+            } else {
+                books.push({ title, author, quantity });
+            }
+            renderInventory();
+        }
+
+
+        function removeBook(title) {
+            books = books.filter(book => book.title !== title);
+            renderInventory();
+        }
+
+        function getTotalBooks() {
+            return books.reduce((total, book) => total + book.quantity, 0);
+        }
+
+        function renderInventory() {
+            const tableBody = document.querySelector('#inventoryTable tbody');
+            tableBody.innerHTML = '';
+            books.forEach(book => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td>${book.quantity}</td>
+                    <td><button onclick="removeBook('${book.title}')">Remove</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+            document.getElementById('totalBooks').innerText = getTotalBooks();
+        }
+
+        // Form submission
+        document.getElementById('bookForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+            addBook(title, author, quantity);
+            this.reset();
+        });
+    </script>
+
+</body>
+</html>

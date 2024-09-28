@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Store Billing System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        table {
+            margin: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        button {
+            margin-top: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .total {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .bill {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+        }
+        .bill-summary {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>VISHAL MEGA MART Billing System</h1>
+    <table id="groceryTable">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price (Rs)</th>
+                <th>Quantity</th>
+                <th>Total (Rs)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Apples</td>
+                <td>10</td>
+                <td><input type="number" min="0" value="0" class="quantity"></td>
+                <td class="item-total">0</td>
+                <td><button onclick="removeItem(this)">Remove</button></td>
+            </tr>
+            <tr>
+                <td>Bananas</td>
+                <td>5</td>
+                <td><input type="number" min="0" value="0" class="quantity"></td>
+                <td class="item-total">0</td>
+                <td><button onclick="removeItem(this)">Remove</button></td>
+            </tr>
+            <tr>
+                <td>Oranges</td>
+                <td>8</td>
+                <td><input type="number" min="0" value="0" class="quantity"></td>
+                <td class="item-total">0</td>
+                <td><button onclick="removeItem(this)">Remove</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="addItem()">Add Item</button>
+    <button onclick="generateBill()">Generate Bill</button>
+    <div class="total">Final Total: <span id="finalTotal">0</span> Rs</div>
+    <div id="bill" class="bill" style="display: none;"></div>
+    <div id="billSummary" class="bill-summary" style="display: none;"></div>
+    <script>
+        function calculateTotal() {
+            let total = 0;
+            const rows = document.querySelectorAll('#groceryTable tbody tr');
+            rows.forEach(row => {
+                const price = parseFloat(row.cells[1].innerText);
+                const quantity = row.querySelector('.quantity').value;
+                const itemTotal = price * quantity;
+                row.querySelector('.item-total').innerText = itemTotal.toFixed(2);
+                total += itemTotal;
+            });
+            document.getElementById('finalTotal').innerText = total.toFixed(2);
+        }
+        document.querySelectorAll('.quantity').forEach(input => {
+            input.addEventListener('input', calculateTotal);
+        });
+        function addItem() {
+            const newItem = prompt("Enter item name:");
+            const newPrice = prompt("Enter item price (in Rs):");
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${newItem}</td>
+                <td>${newPrice}</td>
+                <td><input type="number" min="0" value="0" class="quantity"></td>
+                <td class="item-total">0</td>
+                <td><button onclick="removeItem(this)">Remove</button></td>
+            `;
+            document.querySelector('#groceryTable tbody').appendChild(newRow);
+            newRow.querySelector('.quantity').addEventListener('input', calculateTotal);
+        }
+        function removeItem(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            calculateTotal();
+        }
+        function generateBill() {
+            const rows = document.querySelectorAll('#groceryTable tbody tr');
+            let subtotal = 0;
+            let billContent = "<h2>Customer Bill</h2><table><tr><th>Item</th><th>Price (Rs)</th><th>Quantity</th><th>Total (Rs)</th></tr>";
+            rows.forEach(row => {
+                const item = row.cells[0].innerText;
+                const price = row.cells[1].innerText;
+                const quantity = row.querySelector('.quantity').value;
+                const total = row.querySelector('.item-total').innerText;
+                if (quantity > 0) {
+                    billContent += `<tr><td>${item}</td><td>${price}</td><td>${quantity}</td><td>${total}</td></tr>`;
+                    subtotal += parseFloat(total);
+                }
+            });
+            billContent += "</table>";
+            document.getElementById('bill').innerHTML = billContent;
+            document.getElementById('bill').style.display = 'block';
+            
+            // Bill summary
+            const discount = 0.05; // 5% discount
+            const discountAmount = subtotal * discount;
+            const total = subtotal - discountAmount;
+            const summaryContent = `
+                <h3>Bill Summary</h3>
+                <p>Subtotal: Rs ${subtotal.toFixed(2)}</p>
+                <p>Discount (5%): -Rs ${discountAmount.toFixed(2)}</p>
+                <p>Total: Rs ${total.toFixed(2)}</p>
+            `;
+            document.getElementById('billSummary').innerHTML = summaryContent;
+            document.getElementById('billSummary').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
